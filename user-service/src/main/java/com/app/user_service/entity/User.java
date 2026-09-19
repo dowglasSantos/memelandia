@@ -1,13 +1,11 @@
 package com.app.user_service.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity(name = "tb_user")
 @Getter
@@ -16,16 +14,16 @@ import java.util.Date;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_usuario")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_user")
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "data_cadastro", nullable = false)
-    private Date dataCadastro;
+    @Column(name = "registrationDate", nullable = false)
+    private LocalDateTime registrationDate;
 }
