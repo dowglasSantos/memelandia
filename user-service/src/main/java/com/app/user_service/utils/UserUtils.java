@@ -1,18 +1,17 @@
 package com.app.user_service.utils;
 
 import com.app.user_service.dto.UserDTO;
-import com.app.user_service.entity.User;
+import com.app.user_service.entity.UserEntity;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 public final class UserUtils {
     private UserUtils() {
     }
 
-    public static User getDateToDTO(UserDTO userDTO) {
-        User user = new User();
+    public static UserEntity converter(UserDTO userDTO) {
+        UserEntity user = new UserEntity();
         user.setName(userDTO.name());
         user.setEmail(userDTO.email());
         user.setRegistrationDate(LocalDateTime.now());
@@ -20,9 +19,11 @@ public final class UserUtils {
         return user;
     }
 
-    public static User editUserData(User user, UserDTO userDTO) {
+    public static UserEntity edit(UserEntity user, UserDTO userDTO) {
+        user.setId(user.getId());
         user.setName(userDTO.name());
         user.setEmail(userDTO.email());
+        user.setRegistrationDate(user.getRegistrationDate());
 
         return user;
     }
