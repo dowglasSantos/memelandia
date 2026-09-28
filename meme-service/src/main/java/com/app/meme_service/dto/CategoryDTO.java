@@ -1,4 +1,3 @@
 package com.app.meme_service.dto;
 
-public enum CategoryDTO {
-}
+public record CategoryDTO(String name, String description) {}
