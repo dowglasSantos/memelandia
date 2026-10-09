@@ -1,0 +1,87 @@
+package com.app.meme_service.service;
+
+import com.app.meme_service.dto.MemeDTO;
+import com.app.meme_service.entity.CategoryEntity;
+import com.app.meme_service.entity.MemeEntity;
+import com.app.meme_service.exception.category_exception.CategoryNotFoundException;
+import com.app.meme_service.exception.meme_exception.MemeNotFoudException;
+import com.app.meme_service.feign.UserService;
+import com.app.meme_service.repository.CategoryRepository;
+import com.app.meme_service.repository.MemeRepository;
+import com.app.meme_service.utils.MemeUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Slf4j
+@Service
+public class MemeService {
+    private final MemeRepository memeRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserService userService;
+
+    @Autowired
+    public MemeService(MemeRepository memeRepository, CategoryRepository repository,  UserService userService) {
+       this.memeRepository = memeRepository;
+       this.categoryRepository = repository;
+       this.userService = userService;
+   }
+
+    public MemeDTO createMeme(MemeDTO memeDTO, Long categoryID) {
+        log.info("starting meme registration");
+
+        CategoryEntity category = categoryRepository.findById(categoryID).orElseThrow(() -> {
+            log.warn("Category not found id={}" + categoryID);
+            return new CategoryNotFoundException("category not found");
+        });
+
+        userService.verifyUserExists(memeDTO.userID());
+
+        MemeEntity meme = MemeUtils.convert(memeDTO, category);
+
+        log.info("Meme registered");
+        memeRepository.save(meme);
+
+        return memeDTO;
+    }
+
+    public MemeDTO updateMeme(MemeDTO memeDTO, Long memeID) {
+        log.info("Starting to update the meme data. meme={}" + memeDTO);
+
+        MemeEntity entity = memeRepository.findById(memeID).orElseThrow(() -> {
+            log.warn("meme not found id={}" + memeID);
+            throw  new MemeNotFoudException("meme not found");
+        });
+
+        MemeEntity editMeme = MemeUtils.edit(memeDTO, entity);
+
+        log.info("Meme successfully updated.");
+        memeRepository.save(editMeme);
+
+        return memeDTO;
+    }
+
+    public void deleteMeme(Long memeID) {
+        log.info("deleting meme id={}" + memeID);
+
+        MemeEntity meme = memeRepository.findById(memeID).orElseThrow(() -> {
+            log.warn("meme not found id={}" + memeID);
+            throw new MemeNotFoudException("meme not found");
+        });
+
+        log.info("Meme successfully deleted");
+        memeRepository.delete(meme);
+    }
+
+    public List<MemeEntity> listMeme() {
+        log.info("looking for the list of memes");
+
+        List<MemeEntity> memes = memeRepository.findAll();
+
+        log.info("number of memes found []" + memes.size());
+
+        return memes;
+    }
+}
