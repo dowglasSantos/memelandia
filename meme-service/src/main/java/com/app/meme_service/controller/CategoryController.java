@@ -1,12 +1,15 @@
 package com.app.meme_service.controller;
 
 import com.app.meme_service.dto.CategoryDTO;
+import com.app.meme_service.entity.CategoryEntity;
 import jdk.jfr.Category;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.app.meme_service.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @Slf4j
 @RestController()
@@ -26,12 +29,16 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    private void deleteCategory(@PathVariable(name = "id") Long id) {
+    private ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") Long id) {
         categoryService.deleteCategory(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()
-    private void listCategory() {
-        categoryService.listCategory();
+    private ResponseEntity<List<CategoryEntity>> listCategory() {
+         List<CategoryEntity> categories = categoryService.listCategory();
+
+         return ResponseEntity.ok(categories);
     }
 }
