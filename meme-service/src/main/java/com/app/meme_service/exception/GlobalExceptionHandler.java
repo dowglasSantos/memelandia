@@ -1,5 +1,6 @@
 package com.app.meme_service.exception;
 
+import com.app.meme_service.dto.ErrorResponseDTO;
 import com.app.meme_service.exception.category_exception.CategoryAlreadyExistsException;
 import com.app.meme_service.exception.category_exception.CategoryNotFoundException;
 import com.app.meme_service.exception.meme_exception.MemeNotFoudException;
@@ -13,23 +14,41 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    private ResponseEntity<String> categoryNotFoundException(CategoryNotFoundException exception) {
+    private ResponseEntity<ErrorResponseDTO> categoryNotFoundException(CategoryNotFoundException exception) {
+        ErrorResponseDTO error = new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                "CATEGORY NOT FOUND",
+                exception.getMessage()
+        );
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+                .body(error);
     }
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
-    private ResponseEntity<String>  categoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
+    private ResponseEntity<ErrorResponseDTO>  categoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
+        ErrorResponseDTO error = new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                "CATEGORY ALREADY IN USE",
+                exception.getMessage()
+        );
+
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(exception.getMessage());
+                .body(error);
     }
 
     @ExceptionHandler(MemeNotFoudException.class)
-    private ResponseEntity<String> memeNotFoundException(MemeNotFoudException exception) {
+    private ResponseEntity<ErrorResponseDTO> memeNotFoundException(MemeNotFoudException exception) {
+        ErrorResponseDTO error = new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                "MEME NOT FOUND",
+                exception.getMessage()
+        );
+
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(exception.getMessage());
+                .body(error);
     }
 }
