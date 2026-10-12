@@ -61,7 +61,7 @@ public class CategoryService {
                 });
 
         log.info("Category deleted successfully.");
-        categoryRepository.delete(category);
+        categoryRepository.deleteById(category.getId());
     }
 
     public List<CategoryEntity> listCategory(){

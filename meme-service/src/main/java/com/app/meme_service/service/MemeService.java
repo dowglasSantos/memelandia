@@ -5,7 +5,7 @@ import com.app.meme_service.entity.CategoryEntity;
 import com.app.meme_service.entity.MemeEntity;
 import com.app.meme_service.exception.category_exception.CategoryNotFoundException;
 import com.app.meme_service.exception.meme_exception.MemeNotFoudException;
-import com.app.meme_service.feign.UserService;
+import com.app.meme_service.feign.UserFeign;
 import com.app.meme_service.repository.CategoryRepository;
 import com.app.meme_service.repository.MemeRepository;
 import com.app.meme_service.utils.MemeUtils;
@@ -20,13 +20,13 @@ import java.util.List;
 public class MemeService {
     private final MemeRepository memeRepository;
     private final CategoryRepository categoryRepository;
-    private final UserService userService;
+    private final UserFeign userFeign;
 
     @Autowired
-    public MemeService(MemeRepository memeRepository, CategoryRepository repository,  UserService userService) {
+    public MemeService(MemeRepository memeRepository, CategoryRepository repository,  UserFeign userFeign) {
        this.memeRepository = memeRepository;
        this.categoryRepository = repository;
-       this.userService = userService;
+       this.userFeign = userFeign;
    }
 
     public MemeDTO createMeme(MemeDTO memeDTO, Long categoryID) {
@@ -37,7 +37,7 @@ public class MemeService {
             return new CategoryNotFoundException("category not found");
         });
 
-        userService.verifyUserExists(memeDTO.userID());
+        userFeign.verifyUserExists(memeDTO.userID());
 
         MemeEntity meme = MemeUtils.convert(memeDTO, category);
 
@@ -48,7 +48,7 @@ public class MemeService {
     }
 
     public MemeDTO updateMeme(MemeDTO memeDTO, Long memeID) {
-        log.info("Starting to update the meme data. meme={}" + memeDTO);
+        log.info("Starting to update the meme data. memeDTO={}" + memeDTO);
 
         MemeEntity entity = memeRepository.findById(memeID).orElseThrow(() -> {
             log.warn("meme not found id={}" + memeID);
@@ -72,7 +72,7 @@ public class MemeService {
         });
 
         log.info("Meme successfully deleted");
-        memeRepository.delete(meme);
+        memeRepository.deleteById(meme.getId());
     }
 
     public List<MemeEntity> listMeme() {

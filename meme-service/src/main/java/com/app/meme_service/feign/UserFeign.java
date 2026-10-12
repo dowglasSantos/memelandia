@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
         name = "user-service",
         url = "http://localhost:8081/user/find-by-id"
 )
-public interface UserService {
+public interface UserFeign {
     @GetMapping("{userID}")
     void verifyUserExists(@PathVariable(name = "userID") Long userID);
 }
