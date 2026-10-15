@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "user", url = "http://localhost:8081/user")
+@FeignClient(name = "user", url = "${user.service.url}")
 public interface UserFeign {
-    @PostMapping()
+    @PostMapping("/user")
     void createUser(@RequestBody UserDTO user);
 
-    @PutMapping("/{userID}")
+    @PutMapping("/user/{userID}")
     void updateUser(@RequestBody UserDTO user, @PathVariable(name = "userID") Long userID);
 
-    @DeleteMapping("/delete/{userID}")
+    @DeleteMapping("/user/delete/{userID}")
     void deleteUser(@PathVariable(name = "userID") Long userID);
 
-    @GetMapping("/list")
+    @GetMapping("/user/list")
     List<UserDTO> listUser();
 }

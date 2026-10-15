@@ -1,0 +1,38 @@
+services:
+  memelandia:
+    build:
+      context: ./memelandia
+    ports:
+      - "8080:8080"
+    environment:
+      USER_SERVICE_URL: "http://user-service:8081"
+      MEME_SERVICE_URL: "http://meme-service:8082"
+    depends_on:
+      - user-service
+      - meme-service
+    networks:
+      - memelandia-network
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "8081:8081"
+    networks:
+      - memelandia-network
+
+  meme-service:
+    build:
+      context: ./meme-service
+    ports:
+      - "8082:8082"
+    environment:
+      USER_SERVICE_URL: "http://user-service:8081"
+    depends_on:
+      - user-service
+    networks:
+      - memelandia-network
+
+networks:
+  memelandia-network:
+    driver: bridge

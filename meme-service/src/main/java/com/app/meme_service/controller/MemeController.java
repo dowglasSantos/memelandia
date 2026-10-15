@@ -16,26 +16,26 @@ import java.util.List;
 @RequestMapping("/meme")
 public class MemeController {
     @Autowired
-    private MemeService memeService;
+    public MemeService memeService;
 
-    @PostMapping("/create/{categoryID}")
-    private ResponseEntity<MemeDTO> createMeme(@RequestBody MemeDTO meme, @PathVariable Long categoryID) {
+    @PostMapping("/{categoryID}")
+    public ResponseEntity<MemeDTO> createMeme(@RequestBody MemeDTO meme, @PathVariable(name = "categoryID") Long categoryID) {
         return ResponseEntity.ok(memeService.createMeme(meme, categoryID));
     }
 
-    @PutMapping("/update/{memeID}")
-    private ResponseEntity<MemeDTO> updateMeme(@RequestBody MemeDTO meme,@PathVariable Long memeID) {
+    @PutMapping("/{memeID}")
+    public ResponseEntity<MemeDTO> updateMeme(@RequestBody MemeDTO meme,@PathVariable Long memeID) {
         return ResponseEntity.ok(memeService.updateMeme(meme, memeID));
     }
 
-    @DeleteMapping("/delete/{memeID}")
-    private ResponseEntity<Void> deleteMeme(@PathVariable Long memeID) {
-        memeService.deleteMeme(memeID);
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/{memeID}/{userID}")
+    public ResponseEntity<Void> deleteMeme(@PathVariable Long memeID, @PathVariable(name = "userID") Long userID) {
+        memeService.deleteMeme(memeID, userID);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()
-    private ResponseEntity<List<MemeEntity>> listMeme() {
+    public ResponseEntity<List<MemeEntity>> listMeme() {
         List<MemeEntity> memes = memeService.listMeme();
 
         return ResponseEntity.ok(memes);

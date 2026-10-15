@@ -32,12 +32,12 @@ public class MemeService {
     public MemeDTO createMeme(MemeDTO memeDTO, Long categoryID) {
         log.info("starting meme registration");
 
+        userFeign.verifyUserExists(memeDTO.userID());
+
         CategoryEntity category = categoryRepository.findById(categoryID).orElseThrow(() -> {
             log.warn("Category not found id={}" + categoryID);
             return new CategoryNotFoundException("category not found");
         });
-
-        userFeign.verifyUserExists(memeDTO.userID());
 
         MemeEntity meme = MemeUtils.convert(memeDTO, category);
 
@@ -49,6 +49,8 @@ public class MemeService {
 
     public MemeDTO updateMeme(MemeDTO memeDTO, Long memeID) {
         log.info("Starting to update the meme data. memeDTO={}" + memeDTO);
+
+        userFeign.verifyUserExists(memeDTO.userID());
 
         MemeEntity entity = memeRepository.findById(memeID).orElseThrow(() -> {
             log.warn("meme not found id={}" + memeID);
@@ -63,8 +65,10 @@ public class MemeService {
         return memeDTO;
     }
 
-    public void deleteMeme(Long memeID) {
+    public void deleteMeme(Long memeID, Long userID) {
         log.info("deleting meme id={}" + memeID);
+
+        userFeign.verifyUserExists(userID);
 
         MemeEntity meme = memeRepository.findById(memeID).orElseThrow(() -> {
             log.warn("meme not found id={}" + memeID);

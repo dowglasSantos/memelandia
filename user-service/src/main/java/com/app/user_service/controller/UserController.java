@@ -24,14 +24,14 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable(name = "id") Long id, @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.editUser(id, userDTO));
+    @PutMapping("/{userID}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable(name = "userID") Long userID, @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.editUser(userID, userDTO));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/delete/{userID}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "userID") Long userID) {
+        userService.deleteUser(userID);
         return ResponseEntity.noContent().build();
     }
 

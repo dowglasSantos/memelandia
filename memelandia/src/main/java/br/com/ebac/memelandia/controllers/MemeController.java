@@ -13,14 +13,14 @@ public class MemeController {
     @Autowired
     MemeService memeService;
 
-    @PostMapping("/{categoryID}/{userID}")
-    public MemeDTO createMeme(@RequestBody MemeDTO meme, @PathVariable(name = "categoryID") Long categoryID, @PathVariable(name = "userID") Long userID) {
-        return memeService.createMeme(meme, categoryID, userID);
+    @PostMapping("/{categoryID}")
+    public MemeDTO createMeme(@RequestBody MemeDTO meme, @PathVariable(name = "categoryID") Long categoryID) {
+        return memeService.createMeme(meme, categoryID);
     }
 
-    @PutMapping("/{memeID}/{userID}")
-    public MemeDTO updateMeme(@RequestBody MemeDTO meme, @PathVariable(name = "memeID") Long memeID, @PathVariable(name = "userID") Long userID) {
-        return memeService.updateMeme(meme, memeID, userID);
+    @PutMapping("/{memeID}")
+    public MemeDTO updateMeme(@RequestBody MemeDTO meme, @PathVariable(name = "memeID") Long memeID) {
+        return memeService.updateMeme(meme, memeID);
     }
 
     @DeleteMapping("/{memeID}/{userID}")

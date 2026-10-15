@@ -12,20 +12,20 @@ public final class MemeUtils {
     public static MemeEntity convert(MemeDTO memeDTO, CategoryEntity category) {
         MemeEntity memeEntity = new MemeEntity();
 
-        memeEntity.setCategory(category);
-        memeEntity.setURL(memeDTO.URL());
         memeEntity.setName(memeDTO.name());
-        memeEntity.setUserEntityId(memeDTO.userID());
-        memeEntity.setCreatedAt(LocalDateTime.now());
         memeEntity.setDescription(memeDTO.description());
+        memeEntity.setMemeUrl(memeDTO.memeUrl());
+        memeEntity.setCategory(category);
+        memeEntity.setUserID(memeDTO.userID());
+        memeEntity.setCreatedAt(LocalDateTime.now());
 
         return memeEntity;
     }
 
     public static MemeEntity edit(MemeDTO meme, MemeEntity entity) {
-        entity.setURL(meme.URL());
         entity.setName(meme.name());
         entity.setDescription(meme.description());
+        entity.setMemeUrl(meme.memeUrl());
 
         return entity;
     }

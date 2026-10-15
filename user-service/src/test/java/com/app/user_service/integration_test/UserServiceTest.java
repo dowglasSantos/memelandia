@@ -62,10 +62,9 @@ public class UserServiceTest {
 
        UserDTO editUser = new UserDTO("huemay edit", "test@mock.com");
 
-       UserEntity newUser =  userService.editUser(10L, editUser);
+       UserDTO newUser =  userService.editUser(10L, editUser);
 
-       assertEquals(user.getId(), newUser.getId());
-       assertEquals(editUser.name(), newUser.getName());
+       assertEquals(editUser.name(), newUser.name());
     }
 
     @Test

@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "category", url = "http://localhost:8082/category")
+@FeignClient(name = "category", url = "${meme.service.url}")
 public interface CategoryFeign {
-    @PostMapping()
+    @PostMapping("/category")
     void createCategory(@RequestBody CategoryDTO category);
 
-    @PutMapping("/{categoryID}")
+    @PutMapping("/category/{categoryID}")
     void updateCategory(@RequestBody CategoryDTO category, @PathVariable(name = "categoryID") Long categoryID);
 
-    @DeleteMapping("/{categoryID}")
+    @DeleteMapping("/category/{categoryID}")
     void deleteCategory(@PathVariable(name = "categoryID") Long categoryID);
 
-    @GetMapping()
+    @GetMapping("/category")
     List<CategoryDTO> listCategory();
 }

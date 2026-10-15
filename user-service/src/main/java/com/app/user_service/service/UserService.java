@@ -33,11 +33,11 @@ public class UserService {
         return userDTO;
     }
 
-    public UserDTO editUser(Long id, UserDTO userDTO) {
-       UserEntity entity = userRepository.findById(id)
+    public UserDTO editUser(Long userID, UserDTO userDTO) {
+       UserEntity entity = userRepository.findById(userID)
                .orElseThrow(() -> {
                    log.warn("Error editing user, editUser");
-                   return new UserNotFoundException("User not found with id: " + id);
+                   return new UserNotFoundException("User not found with id: " + userID);
                });
 
        UserEntity newUser = UserUtils.edit(entity, userDTO);
@@ -46,24 +46,24 @@ public class UserService {
        return userDTO;
     }
 
-    public void deleteUser(Long id) {
-        userRepository.findById(id).orElseThrow(() -> {
+    public void deleteUser(Long userID) {
+        userRepository.findById(userID).orElseThrow(() -> {
                     log.warn("Non-existent user");
-                    return new UserNotFoundException("User not found with id: " + id);
+                    return new UserNotFoundException("User not found with id: " + userID);
                 });
 
-        userRepository.deleteById(id);
+        userRepository.deleteById(userID);
     }
 
     public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public UserEntity findById(Long id) {
-        return userRepository.findById(id)
+    public UserEntity findById(Long userID) {
+        return userRepository.findById(userID)
                 .orElseThrow(() -> {
                     log.warn("Non-existent user, findById");
-                    return new UserNotFoundException("User not found with ID: " + id);
+                    return new UserNotFoundException("User not found with ID: " + userID);
                 });
     }
 

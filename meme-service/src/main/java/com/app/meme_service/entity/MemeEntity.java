@@ -16,25 +16,25 @@ import java.time.LocalDateTime;
 public class MemeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_meme")
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "URL", nullable = false)
-    private String URL;
+    @Column(name = "memeUrl", nullable = false)
+    private String memeUrl;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "categoryID", nullable = false)
     private CategoryEntity category;
 
-    @Column(name = "userEntityId", nullable = false)
-    private Long userEntityId;
+    @Column(name = "userID", nullable = false)
+    private Long userID;
 
-    @Column(name = "createdAt", nullable = false)
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
 }

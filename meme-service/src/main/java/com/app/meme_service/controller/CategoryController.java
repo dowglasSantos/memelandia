@@ -19,24 +19,24 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping()
-    private ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO category) {
+    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO category) {
         return ResponseEntity.ok(categoryService.createCategory(category));
     }
 
-    @PutMapping("/update/{id}")
-    private ResponseEntity<CategoryDTO>  updateCategory(@PathVariable(name = "id") Long id, @RequestBody CategoryDTO category) {
-        return ResponseEntity.ok(categoryService.updateCategory(id, category));
+    @PutMapping("/{categoryID}")
+    public ResponseEntity<CategoryDTO>  updateCategory(@PathVariable(name = "categoryID") Long categoryID, @RequestBody CategoryDTO category) {
+        return ResponseEntity.ok(categoryService.updateCategory(categoryID, category));
     }
 
-    @DeleteMapping("/delete/{id}")
-    private ResponseEntity<Void> deleteCategory(@PathVariable(name = "id") Long id) {
-        categoryService.deleteCategory(id);
+    @DeleteMapping("/{categoryID}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable(name = "categoryID") Long categoryID) {
+        categoryService.deleteCategory(categoryID);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping()
-    private ResponseEntity<List<CategoryEntity>> listCategory() {
+    public ResponseEntity<List<CategoryEntity>> listCategory() {
          List<CategoryEntity> categories = categoryService.listCategory();
 
          return ResponseEntity.ok(categories);

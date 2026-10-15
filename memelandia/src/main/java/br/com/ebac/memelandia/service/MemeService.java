@@ -12,18 +12,18 @@ public class MemeService {
     @Autowired
     MemeFeign memeFeign;
 
-    public MemeDTO createMeme(MemeDTO meme, Long categoryID, Long userID) {
+    public MemeDTO createMeme(MemeDTO meme, Long categoryID) {
         MemeDTO memeDTO = new MemeDTO(meme.getName(), meme.getDescription(), meme.getMemeUrl());
 
-        memeFeign.createMeme(meme, categoryID, userID);
+        memeFeign.createMeme(meme, categoryID);
 
         return memeDTO;
     }
 
-    public MemeDTO updateMeme(MemeDTO meme, Long memeID, Long userID) {
+    public MemeDTO updateMeme(MemeDTO meme, Long memeID) {
         MemeDTO memeDTO = new MemeDTO(meme.getName(), meme.getDescription(), meme.getMemeUrl());
 
-        memeFeign.updateMeme(meme, memeID, userID);
+        memeFeign.updateMeme(meme, memeID);
 
         return memeDTO;
     }

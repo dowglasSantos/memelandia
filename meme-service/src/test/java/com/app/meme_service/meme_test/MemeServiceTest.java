@@ -1,6 +1,7 @@
 package com.app.meme_service.meme_test;
 
 import com.app.meme_service.dto.MemeDTO;
+import com.app.meme_service.dto.UserDTO;
 import com.app.meme_service.entity.CategoryEntity;
 import com.app.meme_service.entity.MemeEntity;
 import com.app.meme_service.feign.UserFeign;
@@ -104,7 +105,6 @@ public class MemeServiceTest {
 
     @Test
     void deleteMeme() {
-        // Arrange
         MemeEntity meme = new MemeEntity();
         meme.setId(1L);
         meme.setName("Os manos da oeste");
@@ -113,12 +113,15 @@ public class MemeServiceTest {
         when(memeRepository.findById(1L))
                 .thenReturn(Optional.of(meme));
 
-        // Act
-        memeService.deleteMeme(1L);
+        doNothing().when(userFeign).verifyUserExists(1L);
 
-        // Assert
+        UserDTO userDTO = new UserDTO(1L, "huemay", "huemay@123");
+
+        memeService.deleteMeme(1L, userDTO.id());
+
         verify(memeRepository).deleteById(1L);
         verify(memeRepository).findById(1L);
+        verify(userFeign).verifyUserExists(1L);
     }
 
     @Test

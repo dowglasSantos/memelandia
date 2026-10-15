@@ -1,5 +1,6 @@
 package com.app.meme_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class CategoryEntity {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<MemeEntity> memes;
 
     public CategoryEntity() {

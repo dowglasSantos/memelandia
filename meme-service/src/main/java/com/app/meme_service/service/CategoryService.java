@@ -34,12 +34,12 @@ public class CategoryService {
         return categoryDTO;
     }
 
-    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO){
-        log.info("updating the category id={}" + id);
+    public CategoryDTO updateCategory(Long categoryID, CategoryDTO categoryDTO){
+        log.info("updating the category id={}" + categoryID);
 
-        CategoryEntity entity = categoryRepository.findById(id)
+        CategoryEntity entity = categoryRepository.findById(categoryID)
                 .orElseThrow(() -> {
-                    log.warn("category not found id={}" + id);
+                    log.warn("category not found id={}" + categoryID);
                     throw new CategoryNotFoundException("category not found");
         });
 
@@ -51,12 +51,12 @@ public class CategoryService {
         return categoryDTO;
     }
 
-    public void deleteCategory(Long id){
+    public void deleteCategory(Long categoryID){
         log.info("delete category");
 
-        CategoryEntity category = categoryRepository.findById(id)
+        CategoryEntity category = categoryRepository.findById(categoryID)
                 .orElseThrow(() -> {
-                    log.warn("category not found id={}" + id);
+                    log.warn("category not found id={}" + categoryID);
                     throw  new CategoryNotFoundException("category not found");
                 });
 
